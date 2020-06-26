@@ -1,0 +1,12 @@
+---
+#
+# Simple Playbook to setup motd on Linux machine
+#
+
+- name: Setup motd
+  hosts: ec2
+  become: yes
+
+  roles:
+    - role: setup_motd
+

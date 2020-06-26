@@ -1,0 +1,7 @@
+---
+# tasks file for setup_motd
+
+- name: Setup message
+  template:
+    src: motd.j2
+    dest: /etc/motd

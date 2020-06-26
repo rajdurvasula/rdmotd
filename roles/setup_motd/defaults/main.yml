@@ -1,0 +1,6 @@
+---
+# defaults file for setup_motd
+
+messages:
+  - "Welcome user !"
+  - "Good Day !!"
