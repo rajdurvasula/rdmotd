@@ -4,7 +4,7 @@
 #
 
 - name: Setup motd
-  hosts: all
+  hosts: tag_Purpose_poc
   become: yes
 
   roles:
