@@ -6,6 +6,10 @@
 - name: Setup motd
   hosts: all
   become: yes
+  vars:
+    at_base_url: "https://rdawx.rajdurvasula.com"
+    at_admin: admin
+    at_admin_pwd: t0wer123
 
   roles:
     - role: setup_motd
@@ -16,4 +20,32 @@
     - name: Print Job Id
       debug:
         msg: "{{ tower_job_id }}"
+
+    - name: Get Token
+      uri:
+        url: "{{at_base_url}}/api/v2/tokens/"
+        user: "{{at_admin}}"
+        password: "{{at_admin_pwd}}"
+        method: POST
+        validate_certs: no
+        force_basic_auth: yes
+        status_code: 201
+        return_content: yes
+      register: at_auth_response
+
+    - name: Get Job Events
+      uri:
+        url: "{{at_base_url}}/api/v2/jobs/{{tower_job_id}}/job_events/"
+        headers:
+          Authorization: "Bearer {{ at_auth_response.json.token }}"
+          Content-Type: "application/json"
+        method: GET
+        follow_redirects: all
+        validate_certs: no
+        return_content: yes
+      register: job_events
+
+    - name: Print Job Events
+      debug: var=job_events
+      
       
