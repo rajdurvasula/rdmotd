@@ -43,7 +43,11 @@
         return_content: yes
       register: job_events
 
-    - name: Print Job Events
-      debug: var=job_events
-      
-      
+    - name: Print Failed Event Data
+      debug:
+        msg: "{{job_event.event}}"
+      loop: "{{ job_events.json.results }}"
+      loop_control:
+        loop_var: job_event
+      when:
+        - job_event.failed|bool 
