@@ -10,3 +10,10 @@
   roles:
     - role: setup_motd
 
+- name: Get Job Details
+  hosts: localhost
+  tasks:
+    - name: Print Job Id
+      debug:
+        msg: "{{ tower_job_id }}"
+      
