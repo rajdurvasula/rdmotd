@@ -1,0 +1,22 @@
+---
+- name: Get Job Event Data
+  hosts: localhost
+  vars_files:
+    - vars/main.yml
+  
+  tasks:
+    - name: Get Job Events
+      uri:
+        url: "{{at_base_url}}/api/v2/jobs/{{job_id}}/job_events/"
+        headers:
+          Authorization: "Bearer {{ at_auth_response.json.token }}"
+          Content-Type: "application/json"
+        method: GET
+        follow_redirects: all
+        validate_certs: no
+        status_code: 201
+        return_content: yes
+      register: job_launch_response
+
+    - name: Get Job Event Name and Status
+      

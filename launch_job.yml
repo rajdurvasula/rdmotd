@@ -19,6 +19,23 @@
         return_content: yes
       register: at_auth_response
 
+    - name: Get messages
+      set_fact:
+        message_lines: "{{ message_lines|default([]) + [ '{{item}}' ] }}"
+
+    - name: Print messages JSON
+      debug: var=message_lines
+
+    - name: Make messages JSON
+      set_fact:
+        messages_json: "{{ messages_json|default({}) + combine({ 'messages': '{{ message_lines }}' }) }}"
+
+    - name: Print messages JSON
+      debug: var=messages_json
+
+    - name: fail temporarily
+      fail:
+
     - name: Launch Job
       uri:
         url: "{{at_base_url}}/api/v2/job_templates/{{job_tmplt_id}}/launch/"
@@ -26,12 +43,7 @@
           Authorization: "Bearer {{ at_auth_response.json.token }}"
           Content-Type: "application/json"
         body_format: json
-        body:
-          at_base_url: "{{at_base_url}}"
-          at_admin_pwd: "{{at_admin_pwd}}"
-          messages:
-            -  "Welcome !"
-            -  "Rajasekhar's RHEL8 Instance"
+        body: "{{ messages_json }}"
         method: POST
         follow_redirects: all
         validate_certs: no
