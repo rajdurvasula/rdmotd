@@ -1,0 +1,13 @@
+---
+#
+# Simple Playbook to setup motd on Linux machine
+#
+
+- name: Setup motd
+  hosts: all
+  become: yes
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - role: setup_motd
