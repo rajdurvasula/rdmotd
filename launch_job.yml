@@ -25,7 +25,7 @@
 
     - name: Build Extra Args
       set_fact:
-        extra_args: "{{ extra_args + combine({'at_base_url': '{{at_base_url}}', 'at_admin_pwd': '{{at_admin_pwd}}' }) }}"
+        extra_args: "{{ extra_args | combine({'at_base_url': '{{at_base_url}}', 'at_admin_pwd': '{{at_admin_pwd}}' }) }}"
 
     - name: Launch Job
       uri:
