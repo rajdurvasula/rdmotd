@@ -35,6 +35,7 @@
         method: POST
         follow_redirects: all
         validate_certs: no
+        status_code: 201
         return_content: yes
       register: job_launch_response
 
