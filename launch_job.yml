@@ -19,6 +19,14 @@
         return_content: yes
       register: at_auth_response
 
+    - name: Initialize Extra Vars
+      set_fact:
+        extra_args: "{ 'extra_vars': {} }"
+
+    - name: Build Extra Args
+      set_fact:
+        extra_args: "{{ extra_args + combine({'at_base_url': '{{at_base_url}}', 'at_admin_pwd': '{{at_admin_pwd}}' }) }}"
+
     - name: Launch Job
       uri:
         url: "{{at_base_url}}/api/v2/job_templates/{{job_tmplt_id}}/launch/"
@@ -26,6 +34,7 @@
           Authorization: "Bearer {{ at_auth_response.json.token }}"
           Content-Type: "application/json"
         body_format: json
+        body: "{{ extra_args }}"
         method: POST
         follow_redirects: all
         validate_certs: no
