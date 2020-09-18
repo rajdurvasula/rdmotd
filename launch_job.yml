@@ -1,24 +1,12 @@
 ---
-#
-# Simple Playbook to setup motd on Linux machine
-#
-
-- name: Setup motd
-  hosts: all
-  become: yes
+- name: Launch a Template Job
+  hosts: localhost
   vars_files:
     - vars/main.yml
+  vars:
+    job_tmplt_id: "1"
 
-  roles:
-    - role: setup_motd
-
-- name: Get Job Details
-  hosts: localhost
   tasks:
-    - name: Print Job Id
-      debug:
-        msg: "{{ tower_job_id }}"
-
     - name: Get Token
       uri:
         url: "{{at_base_url}}/api/v2/tokens/"
@@ -31,19 +19,24 @@
         return_content: yes
       register: at_auth_response
 
-    - name: Get Job Events
+    - name: Launch Job
       uri:
-        url: "{{at_base_url}}/api/v2/jobs/{{tower_job_id}}/job_events/"
+        url: "{{at_base_url}}/api/v2/job_templates/{{job_tmplt_id}}/launch/"
         headers:
           Authorization: "Bearer {{ at_auth_response.json.token }}"
           Content-Type: "application/json"
-        method: GET
+        body_format: json
+        body:
+          at_base_url: "{{at_base_url}}"
+          at_admin_pwd: "{{at_admin_pwd}}"
+          messages:
+            -  "Welcome !"
+            -  "Rajasekhar's RHEL8 Instance"
+        method: POST
         follow_redirects: all
         validate_certs: no
         return_content: yes
-      register: job_events
+      register: job_launch_response
 
-    - name: Print Job Events
-      debug: var=job_events
-      
-      
+    - name: Print job_launch_response
+      debug: var=job_launch_response 
