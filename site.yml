@@ -43,9 +43,13 @@
         return_content: yes
       register: job_events
 
+    - name: Initialize EventData JSON
+      set_fact:
+        eventdata: []
+
     - name: Make EventData JSON
       set_fact:
-        eventdata: '{{ eventdata|default([]) + [ { "event_name": {{job_event.event}}, "failed": {{job_event.failed}} } ] }}'
+        eventdata: "{{ eventdata + [ combine({ 'event_name': '{{job_event.event}}', 'failed': '{{job_event.failed}}' }) ] }}"
       loop: "{{job_events.json.results}}"
       loop_control:
         loop_var: job_event
