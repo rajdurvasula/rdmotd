@@ -43,11 +43,22 @@
         return_content: yes
       register: job_events
 
-    - name: Print Failed Event Data
-      debug:
-        msg: "{{job_event.event}}"
-      loop: "{{ job_events.json.results }}"
+    - name: Make EventData JSON
+      set_fact:
+        eventdata: "{{ eventdata|default({}) | combine({ 'event_name': '{{job_event.event}}', 'failed': {{job_evant.failed}} }) }}"
+      loop: "{{job_events.json.results}}"
       loop_control:
         loop_var: job_event
-      when:
-        - job_event.failed|bool 
+
+#    - name: Print Failed Event Data
+#      debug:
+#        msg: "{{job_event.event}}"
+#      loop: "{{ job_events.json.results }}"
+#      loop_control:
+#        loop_var: job_event
+#      when:
+#        - job_event.failed|bool 
+
+    - name: Print EventData JSON
+      debug:
+        var: "{{eventdata}}"
