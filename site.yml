@@ -50,7 +50,8 @@
       loop_control:
         loop_var: job_event
       when:
-        - job_event.event_data.play == "Setup motd"
+        - job_event.play is defined
+        - job_event.play == "Setup motd"
 
 #    - name: Print Failed Event Data
 #      debug:
