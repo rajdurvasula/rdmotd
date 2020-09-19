@@ -54,6 +54,8 @@
       loop_control:
         loop_var: job_event
       when:
+        - job_event.event_data is defined
+        - job_event.event_data.task is defined
         - job_event.play is defined
         - job_event.play == "Setup motd"
 
