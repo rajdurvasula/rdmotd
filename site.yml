@@ -48,8 +48,10 @@
         eventdata: []
 
     - name: Make EventData JSON
-      set_fact:
-        eventdata: "{{ eventdata + [ { 'event_name': '{{job_event.event}}', 'failed': '{{job_event.failed}}' } ] }}"
+#      set_fact:
+#        eventdata: "{{ eventdata + [ { 'event_name': '{{job_event.event}}', 'failed': '{{job_event.failed}}' } ] }}"
+      debug:
+        msg: "Event Name: {{job_event.event}}, Event Failed: {{job_event.failed}}"
       loop: "{{job_events.json.results}}"
       loop_control:
         loop_var: job_event
