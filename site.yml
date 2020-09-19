@@ -49,7 +49,7 @@
 
     - name: Make EventData JSON
       set_fact:
-        eventdata: "{{ eventdata + [ combine({ 'event_name': '{{job_event.event}}', 'failed': '{{job_event.failed}}' }) ] }}"
+        eventdata: "{{ eventdata + [ { 'event_name': '{{job_event.event}}', 'failed': '{{job_event.failed}}' } ] }}"
       loop: "{{job_events.json.results}}"
       loop_control:
         loop_var: job_event
