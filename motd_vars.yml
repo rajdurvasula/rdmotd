@@ -1,0 +1,8 @@
+at_base_url: "http://172.31.41.223"
+at_admin: admin
+at_admin_pwd: o991m113iSy385r27414f12x
+job_tmplt_id: 42
+task_id: 101
+messages:
+  - "Welcome !"
+  - "To Raj's RHEL8 Instance"
