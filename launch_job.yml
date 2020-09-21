@@ -23,7 +23,7 @@
 
     - name: Build Extra Args
       set_fact:
-        extra_vars: "{'at_base_url': '{{at_base_url}}', 'at_admin_pwd': '{{at_admin_pwd}}' }"
+        extra_vars: "{'at_base_url': '{{at_base_url}}', 'at_admin': '{{at_admin}}', 'at_admin_pwd': '{{at_admin_pwd}}', 'job_tmplt_id': '{{job_tmplt_id|str}}' }"
 
     - name: Build Messages
       set_fact:
@@ -31,7 +31,7 @@
 
     - name: Build TaskId
       set_fact:
-        extra_vars: "{{ extra_vars| combine({'task_id': '{{task_id}}' }) }}"
+        extra_vars: "{{ extra_vars| combine({'task_id': '{{task_id|str}}' }) }}"
 
     - name: Build simulate_motd_failure
       set_fact:
