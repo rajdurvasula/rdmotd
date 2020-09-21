@@ -23,7 +23,7 @@
 
     - name: Build Extra Args
       set_fact:
-        extra_vars: "{'at_base_url': '{{at_base_url}}', 'at_admin': '{{at_admin}}', 'at_admin_pwd': '{{at_admin_pwd}}', 'job_tmplt_id': '{{job_tmplt_id|string}}' }"
+        extra_vars: "{{ extra_vars|default({}) | combine({'at_base_url': '{{at_base_url}}', 'at_admin': '{{at_admin}}', 'at_admin_pwd': '{{at_admin_pwd}}', 'job_tmplt_id': '{{job_tmplt_id|string}}' }) }}"
 
     - name: Build Messages
       set_fact:
