@@ -5,3 +5,14 @@
   template:
     src: motd.j2
     dest: /etc/motd
+
+- name: Check file exists
+  stat:
+    path: /etc/motd
+  register: motd_file
+
+- name: Fail Temporarily
+  fail:
+    msg: "File Exists"
+  when:
+    - motd_file.stat.exists 
