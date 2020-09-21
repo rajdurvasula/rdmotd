@@ -47,29 +47,12 @@
       set_fact:
         eventdata: []
 
-    - name: Make EventData JSON
-#      set_fact:
-#        eventdata: "{{ eventdata + [ { 'event_name': '{{job_event.event}}', 'failed': '{{job_event.failed}}' } ] }}"
+    - name: Print Failed Event Data
       debug:
-        msg: "Event Name: {{job_event.event}}, Event Failed: {{job_event.failed}}"
-      loop: "{{job_events.json.results}}"
+        msg: "{{job_event.event}}"
+      loop: "{{ job_events.json.results }}"
       loop_control:
         loop_var: job_event
       when:
-        - job_event.event_data is defined
-        - job_event.event_data.task is defined
-        - job_event.play is defined
-        - job_event.play == "Setup motd"
+        - job_event.failed|bool 
 
-#    - name: Print Failed Event Data
-#      debug:
-#        msg: "{{job_event.event}}"
-#      loop: "{{ job_events.json.results }}"
-#      loop_control:
-#        loop_var: job_event
-#      when:
-#        - job_event.failed|bool 
-
-    - name: Print EventData JSON
-      debug:
-        var: "{{eventdata}}"
