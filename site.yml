@@ -68,7 +68,7 @@
         - job_event.event_data.task is defined
 
     - name: Print failed event data
-      debug: var=failed_event_data
+      debug:
+        msg: "!! Call SNOW API !!"
       when:
-        - failed_event_data is defined
- 
+        - failed_event_data is not  defined
