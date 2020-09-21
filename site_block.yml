@@ -53,7 +53,7 @@
 
     - name: Capture failed event data
       set_fact:
-        failed_event_data: "{{ { 'task': '{{job_event.event_data.task}}', 'failed': '{{job_event.failed}}|bool' } }}"
+        failed_event_data: "{{ { 'task': '{{job_event.event_data.task}}', 'failed': '{{job_event.failed|bool}}' } }}"
       loop: "{{ job_events.json.results }}"
       loop_control:
         loop_var: job_event
