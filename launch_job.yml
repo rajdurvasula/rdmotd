@@ -35,7 +35,7 @@
 
     - name: Build simulate_motd_failure
       set_fact:
-        extra_vars: "{{ extra_vars| combine({'simulate_motd_failure': '{{simulate_motd_failure|bool}}" }) }}"
+        extra_vars: "{{ extra_vars| combine({'simulate_motd_failure': '{{simulate_motd_failure|bool}}' }) }}"
 
     - name: Print extra_vars
       debug: var=extra_vars
