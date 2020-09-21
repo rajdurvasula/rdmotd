@@ -56,3 +56,19 @@
       when:
         - job_event.failed|bool 
 
+    - name: Capture failed event data
+      set_fact:
+        failed_event_data: "{{ { 'task': '{{job_event.event_data.task}}', 'failed': '{{job_event.failed}}|bool' } }}"
+      loop: "{{ job_events.json.results }}"
+      loop_control:
+        loop_var: job_event
+      when:
+        - job_event.failed|bool
+        - job_event.event_data is defined
+        - job_event.event_data.task is defined
+
+    - name: Print failed event data
+      debug: var=failed_event_data
+      when:
+        - failed_event_data is defined
+ 
