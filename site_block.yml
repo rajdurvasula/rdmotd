@@ -62,6 +62,4 @@
 
     - name: POST success
       debug:
-        msg: "Do HTTP POST with data for Task: {{task_id}} for Success Cases"
-      when:
-        - failed_event_data is not defined
+        msg: "{{failed_event_data}}"
