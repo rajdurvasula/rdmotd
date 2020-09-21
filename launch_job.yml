@@ -47,7 +47,7 @@
           Authorization: "Bearer {{ at_auth_response.json.token }}"
           Content-Type: "application/json"
         body_format: json
-        body: "{{ extra_vars }}"
+        body: "{{ extra_vars|to_json }}"
         method: POST
         follow_redirects: all
         validate_certs: no
