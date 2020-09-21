@@ -37,6 +37,10 @@
       set_fact:
         extra_vars: "{{ extra_vars| combine({'simulate_motd_failure': '{{simulate_motd_failure|bool}}' }) }}"
 
+    - name: Build extra_vars
+      set_fact:
+        extra_vars_dict: "{ 'extra_vars': {{ extra_vars }} }"
+
     - name: Print extra_vars
       debug: var=extra_vars
 
@@ -47,7 +51,7 @@
           Authorization: "Bearer {{ at_auth_response.json.token }}"
           Content-Type: "application/json"
         body_format: json
-        body: "{{ extra_vars }}"
+        body: "{{ extra_vars_dict }}"
         method: POST
         follow_redirects: all
         validate_certs: no
