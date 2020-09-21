@@ -12,10 +12,6 @@
   roles:
     - role: setup_motd
 
-  tasks:
-    - name: Fail for Testing purpose
-      fail:
-
 - name: Get Job Details
   hosts: localhost
   tasks:
