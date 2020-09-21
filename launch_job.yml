@@ -37,9 +37,9 @@
       set_fact:
         extra_vars: "{{ extra_vars| combine({'job_tmplt_id': '{{job_tmplt_id|string}}' }) }}"
 
-    - name: Build Messages
-      set_fact:
-        extra_vars: "{{ extra_vars| combine({'messages': '{{messages}}' }) }}"
+#    - name: Build Messages
+#      set_fact:
+#        extra_vars: "{{ extra_vars| combine({'messages': '{{messages}}' }) }}"
 
     - name: Build TaskId
       set_fact:
