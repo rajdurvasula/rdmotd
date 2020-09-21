@@ -1,0 +1,38 @@
+---
+- name: Launch a Template Job
+  hosts: localhost
+  vars:
+    job_tmplt_id: 1
+  vars_files:
+    - vars/main.yml
+
+  tasks:
+
+    - name: Build Extra Args
+      set_fact:
+        extra_vars: "{{ extra_vars|default({}) | combine({'at_base_url': '{{at_base_url}}', 'at_admin_pwd': '{{at_admin_pwd}}' }) }}"
+
+    - name: Build Messages
+      set_fact:
+        extra_vars: "{{ extra_vars| combine({'messages': '{{messages}}' }) }}"
+
+    - name: Build TaskId
+      set_fact:
+        extra_vars: "{{ extra_vars| combine({'task_id': '{{task_id}}' }) }}"
+
+    - name: Print extra_vars
+      debug: var=extra_vars
+
+    - name: Launch Job
+      tower_job_launch:
+        tower_host: "{{at_base_url|basename}}"
+        tower_username: "{{at_admin}}"
+        tower_password: "{{at_admin_pwd}}"
+        validate_certs: no
+        job_type: run
+        job_template: "job_with_events"
+        extra_vars: "{{ extra_vars }}"
+      register: job_launch_response
+
+    - name: Print job_launch_response
+      debug: var=job_launch_response 
