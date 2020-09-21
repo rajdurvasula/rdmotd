@@ -16,4 +16,3 @@
     msg: "File Exists"
   when:
     - motd_file.stat.exists 
-  ignore_errors: yes
