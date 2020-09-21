@@ -58,7 +58,3 @@
       loop_control:
         loop_var: job_event
       when: job_event.failed
-
-    - name: POST success
-      debug:
-        msg: "{{failed_event_data}}"
