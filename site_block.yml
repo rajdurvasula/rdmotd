@@ -57,8 +57,7 @@
       loop: "{{ job_events.json.results }}"
       loop_control:
         loop_var: job_event
-      when:
-        - job_event.failed|bool
+      when: job_event.failed
 
     - name: POST success
       debug:
