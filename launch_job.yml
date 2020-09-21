@@ -23,18 +23,18 @@
 
     - name: Build Extra Args
       set_fact:
-        extra_args: "{{ extra_args|default({}) | combine({'extra_vars': {}}) | combine({'at_base_url': '{{at_base_url}}', 'at_admin_pwd': '{{at_admin_pwd}}' }) }}"
+        extra_vars: "{{ extra_vars|default({}) | combine({'at_base_url': '{{at_base_url}}', 'at_admin_pwd': '{{at_admin_pwd}}' }) }}"
 
     - name: Build Messages
       set_fact:
-        extra_args: "{{ extra_args| combine({'messages': '{{messages}}' }) }}"
+        extra_vars: "{{ extra_vars| combine({'messages': '{{messages}}' }) }}"
 
     - name: Build TaskId
       set_fact:
-        extra_args: "{{ extra_args| combine({'task_id': '{{task_id}}' }) }}"
+        extra_vars: "{{ extra_vars| combine({'task_id': '{{task_id}}' }) }}"
 
-    - name: Print extra_args
-      debug: var=extra_args
+    - name: Print extra_vars
+      debug: var=extra_vars
 
     - name: Launch Job
       uri:
@@ -43,7 +43,7 @@
           Authorization: "Bearer {{ at_auth_response.json.token }}"
           Content-Type: "application/json"
         body_format: json
-        body: "{{ extra_args }}"
+        body: "{{ extra_vars }}"
         method: POST
         follow_redirects: all
         validate_certs: no
