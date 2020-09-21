@@ -31,7 +31,7 @@
         validate_certs: no
         job_type: run
         job_template: "job_with_events"
-        extra_vars: @motd_vars.yml
+        extra_vars: "@motd_vars.yml"
       register: job_launch_response
 
     - name: Print job_launch_response
