@@ -1,0 +1,67 @@
+---
+#
+# Simple Playbook to setup motd on Linux machine
+#
+
+- name: Setup motd
+  hosts: all
+  become: yes
+  vars_files:
+    - vars/main.yml
+
+  tasks:
+    - name: Include Role and Handle Error
+      block:
+        - include_role:
+            name: setup_motd
+      rescue:
+        - name: POST failure
+          debug:
+            msg: "Do HTTP POST with data for Task: {{task_id}} for Failure Cases"
+
+- name: Play to check Job Events
+  hosts: localhost
+
+  tasks:
+    - name: Get Token
+      uri:
+        url: "{{at_base_url}}/api/v2/tokens/"
+        user: "{{at_admin}}"
+        password: "{{at_admin_pwd}}"
+        method: POST
+        validate_certs: no
+        force_basic_auth: yes
+        status_code: 201
+        return_content: yes
+      register: at_auth_response
+
+    - name: Get Job Events
+      uri:
+        url: "{{at_base_url}}/api/v2/jobs/{{tower_job_id}}/job_events/"
+        headers:
+          Authorization: "Bearer {{ at_auth_response.json.token }}"
+          Content-Type: "application/json"
+        method: GET
+        follow_redirects: all
+        validate_certs: no
+        return_content: yes
+      register: job_events
+
+    - name: Initialize EventData JSON
+      set_fact:
+        eventdata: []
+
+    - name: Capture failed event data
+      set_fact:
+        failed_event_data: "{{ { 'task': '{{job_event.event_data.task}}', 'failed': '{{job_event.failed}}|bool' } }}"
+      loop: "{{ job_events.json.results }}"
+      loop_control:
+        loop_var: job_event
+      when:
+        - job_event.failed|bool
+
+    - name: POST success
+      debug:
+        msg: "Do HTTP POST with data for Task: {{task_id}} for Success Cases"
+      when:
+        - failed_event_data is not defined
