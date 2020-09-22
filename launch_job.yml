@@ -62,7 +62,7 @@
 
     - name: Build Body
       set_fact:
-        body_var: "{{ body_var|default({}) | combine({ 'inventory': {{my_inv}} }) | combine({ 'extra_vars': {{extra_vars}} }) }}"
+        body_var: "{{ body_var|default({}) | combine({ 'inventory': '{{my_inv}}' }) | combine({ 'extra_vars': '{{extra_vars}}' }) }}"
 
     - name: Launch Job
       uri:
