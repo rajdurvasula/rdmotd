@@ -61,7 +61,13 @@
 
     - name: Build Body with extra_vars, inventory
       set_fact:
-        body_var: "{{ body_var|default({}) | combine({ 'inventory': '{{inventory_id}}' }) | combine({ 'extra_vars': '{{extra_vars}}' }) | combine({'limit': '{{limit_hosts}}' }) }}"
+        body_var: "{{ body_var|default({}) | combine({ 'inventory': '{{inventory_id}}' }) | combine({ 'extra_vars': '{{extra_vars}}' }) }}"
+
+    - name: Append Limit to Body
+      set_fact:
+        body_var: "{{ body_var | combine({'limit': '{{limit_hosts}}' }) }}"
+      when:
+        - limit_hosts is defined
 
     - name: Launch Job
       uri:
