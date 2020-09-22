@@ -53,8 +53,16 @@
       set_fact:
         extra_vars_dict: "{ 'extra_vars': {{ extra_vars }} }"
 
-    - name: Print extra_vars
-      debug: var=extra_vars
+    - name: Build inventory
+      set_fact:
+        my_inv: "{ 'id': '{{inventory_id}}' }"
+
+#    - name: Print extra_vars
+#      debug: var=extra_vars
+
+    - name: Build Body
+      set_fact:
+        body_var: "{{ body_var|default({}) | combine({ 'inventory': {{my_inv}} }) | combine({ 'extra_vars': {{extra_vars}} }) }}"
 
     - name: Launch Job
       uri:
@@ -63,7 +71,8 @@
           Authorization: "Bearer {{ at_auth_response.json.token }}"
           Content-Type: "application/json"
         body_format: json
-        body: "{{ extra_vars_dict }}"
+#        body: "{{ extra_vars_dict }}"
+        body: "{{ body_var }}"
         method: POST
         follow_redirects: all
         validate_certs: no
