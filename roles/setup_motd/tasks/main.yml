@@ -10,4 +10,5 @@
   fail:
     msg: "File Exists"
   when:
-    - simulate_motd_failure|bool
+    - simulate_motd_failure is defined
+    - simulate_motd_failure == "yes"
