@@ -20,7 +20,6 @@
         return_content: yes
       register: at_auth_response
 
-
     - name: Build Extra Args
       set_fact:
         extra_vars: "{{ extra_vars|default({}) | combine({'at_base_url': '{{at_base_url}}' }) }}"
@@ -49,20 +48,20 @@
       set_fact:
         extra_vars: "{{ extra_vars| combine({'simulate_motd_failure': '{{simulate_motd_failure}}' }) }}"
 
-    - name: Build extra_vars
-      set_fact:
-        extra_vars_dict: "{ 'extra_vars': {{ extra_vars }} }"
+#    - name: Build extra_vars
+#      set_fact:
+#        extra_vars_dict: "{ 'extra_vars': {{ extra_vars }} }"
 
-    - name: Build inventory
-      set_fact:
-        my_inv: "{ 'id': '{{inventory_id}}' }"
+#    - name: Build inventory
+#      set_fact:
+#        my_inv: "{ 'id': '{{inventory_id}}' }"
 
 #    - name: Print extra_vars
 #      debug: var=extra_vars
 
-    - name: Build Body
+    - name: Build Body with extra_vars, inventory
       set_fact:
-        body_var: "{{ body_var|default({}) | combine({ 'inventory': '{{my_inv}}' }) | combine({ 'extra_vars': '{{extra_vars}}' }) }}"
+        body_var: "{{ body_var|default({}) | combine({ 'inventory': '{{inventory_id}}' }) | combine({ 'extra_vars': '{{extra_vars}}' }) }}"
 
     - name: Launch Job
       uri:
