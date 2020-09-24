@@ -20,8 +20,10 @@
           debug:
             msg: "Do HTTP POST with data for Task: {{task_id}} for Success Cases"
       rescue:
-        - name: Import get_job_events Playbook
-          import_playbook: get_job_events.yml
+        - name: Include handle_job_events
+          include_role:
+            name: handle_job_events
+          delegate_to: localhost
 
         - name: POST failure
           debug:
