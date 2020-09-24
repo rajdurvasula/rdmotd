@@ -23,7 +23,6 @@
         - name: Include handle_job_events
           include_role:
             name: handle_job_events
-          delegate_to: localhost
 
         - name: POST failure
           debug:

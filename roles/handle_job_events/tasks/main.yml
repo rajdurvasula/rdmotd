@@ -12,6 +12,7 @@
     status_code: 201
     return_content: yes
   register: at_auth_response
+  delegate_to: localhost
 
 - name: Get Job Events
   uri:
@@ -24,6 +25,7 @@
     validate_certs: no
     return_content: yes
   register: job_events
+  delegate_to: localhost
 
 - name: Initialize EventData JSON
   set_fact:
