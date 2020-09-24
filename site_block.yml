@@ -20,11 +20,13 @@
           debug:
             msg: "Do HTTP POST with data for Task: {{task_id}} for Success Cases"
       rescue:
-
+# This should handle single Endpoint case
+# The Role: handle_job_events can be used here to get failed event data
         - name: POST failure
           debug:
             msg: "Do HTTP POST with data for Task: {{task_id}} for Failure Cases"
 
+# This should handle multiple Endpoints case
 - name: Get Job Events
   hosts: localhost
 
