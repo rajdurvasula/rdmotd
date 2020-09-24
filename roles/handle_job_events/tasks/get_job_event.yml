@@ -5,4 +5,4 @@
 
 - name: Append to Job Event Records
   set_fact:
-    failed_event_records: "{{ failed_event_records +  [ '{{event_record }}' ] }}"
+    failed_event_records: "{{ failed_event_records +  [ event_record ] }}"
