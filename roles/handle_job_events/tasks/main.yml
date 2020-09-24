@@ -29,11 +29,10 @@
 
 - name: Initialize EventData JSON
   set_fact:
-    failed_event_data: []
+    failed_event_records: []
 
-- name: Capture failed event data
-  set_fact:
-    failed_event_data: "{{ failed_event_data  + [{ 'task': {{job_event.event_data.task}}, 'failed': {{job_event.failed|bool}} }] }}"
+- name: Capture failed event records
+  include_tasks: get_job_event.yml
   loop: "{{ job_events.json.results }}"
   loop_control:
     loop_var: job_event

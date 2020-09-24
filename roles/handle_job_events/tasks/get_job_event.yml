@@ -1,0 +1,8 @@
+---
+- name: Get Failed Job Event
+  set_fact:
+    event_record: "{ 'task': '{{job_event.event_data.task}}', 'failed': '{{job_event.failed|bool}}' }"
+
+- name: Append to Job Event Records
+  set_fact:
+    failed_event_records: "{{ failed_event_records +  [ '{{event_record }}' ] }}"
