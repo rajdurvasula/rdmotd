@@ -40,5 +40,5 @@
     - job_event.failed is defined
     - job_event.failed
 
-- name: Print failed_event_data
-  debug: var=failed_event_data
+- name: Print failed_event_records
+  debug: var=failed_event_records
