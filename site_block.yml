@@ -20,10 +20,15 @@
           debug:
             msg: "Do HTTP POST with data for Task: {{task_id}} for Success Cases"
       rescue:
-        - name: Include handle_job_events
-          include_role:
-            name: handle_job_events
 
         - name: POST failure
           debug:
             msg: "Do HTTP POST with data for Task: {{task_id}} for Failure Cases"
+
+- name: Get Job Events
+  hosts: localhost
+
+  tasks:
+    - name: Include handle_job_events Role
+      include_role:
+        name: handle_job_events
