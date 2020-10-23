@@ -1,0 +1,11 @@
+---
+- name: Playbook - OneLinuxAE
+  hosts: all
+
+  tasks:
+    - name: Update /etc/motd
+      lineinfile:
+        path: /etc/motd
+        line: "Message from OneLinuxAE.yml"
+        insertafter: EOF
+      become: true

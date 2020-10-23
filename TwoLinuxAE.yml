@@ -1,0 +1,11 @@
+---
+- name: Playbook - TwoLinuxAE
+  hosts: all
+
+  tasks:
+    - name: Update /etc/motd
+      lineinfile:
+        path: /etc/motd
+        line: "Message from TwoLinuxAE.yml"
+        insertafter: EOF
+      become: true
